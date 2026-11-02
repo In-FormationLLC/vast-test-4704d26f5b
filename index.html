@@ -36,23 +36,64 @@
   li { cursor: pointer; } li:focus-visible, .open:focus-visible { outline: 3px solid var(--gold); }
   .open { margin-top: 10px; background: var(--gold); color: var(--navy); min-height: 46px; padding: 8px 16px; }
   /* the place page: a sheet over the map, closed with a large button that stays in view */
-  #pp { position: fixed; inset: 0; z-index: 2000; background: var(--cream); overflow-y: auto; padding: 0 0 40px; }
-  #pp .bar { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  .pp { position: fixed; inset: 0; z-index: 2000; background: var(--cream); overflow-y: auto; padding: 0 0 40px; }
+  .pp .bar { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 10px;
     background: var(--navy); color: #fff; padding: 10px 16px; }
-  #pp .bar b { font-size: 1.05rem; } #pp .x { background: #fff; color: var(--navy); min-height: 48px; min-width: 48px; }
-  #pp .hero { width: 100%; max-height: 46vh; object-fit: cover; display: block; }
-  #pp .noimg { padding: 26px 16px; background: #e8e3c4; color: var(--muted); font-size: .95rem; }
-  #pp .body { padding: 16px; max-width: 760px; margin: 0 auto; display: grid; gap: 14px; }
-  #pp h2 { margin: 0; font-size: 1.5rem; } #pp .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  #pp .chip { background: #fff; border: 2px solid var(--navy); border-radius: 99px; padding: 4px 12px; font-size: .9rem; font-weight: 700; color: var(--navy); }
-  #pp .cap { font-size: .8rem; color: var(--muted); margin: 6px 16px 0; }
-  #pp .story { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; background: #fff; border-radius: 12px; padding: 12px; }
-  #pp .story img, #pp .story .nocover { width: 84px; height: 120px; object-fit: cover; border-radius: 6px; background: #e8e3c4; }
-  #pp .story .how { display: inline-block; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--green); }
-  #pp .story small { display: block; color: var(--muted); }
-  #pp .borrow { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #eaf3fb; border-left: 5px solid #3e98d7; font-size: .95rem; }
-  #pp .borrow a { display: inline-block; margin-top: 6px; font-weight: 700; color: var(--navy); min-height: 44px; padding-top: 10px; }
-  #pp .linkish { background: none; border: 0; padding: 0; min-height: 0; font: inherit; font-weight: 700; color: var(--navy); text-decoration: underline; cursor: pointer; }
+  .pp .bar b { font-size: 1.05rem; } .pp .x { background: #fff; color: var(--navy); min-height: 48px; min-width: 48px; }
+  .pp .hero { width: 100%; max-height: 46vh; object-fit: cover; display: block; }
+  .pp .noimg { padding: 26px 16px; background: #e8e3c4; color: var(--muted); font-size: .95rem; }
+  .pp .body { padding: 16px; max-width: 760px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .pp h2, .pp b { overflow-wrap: anywhere; } .panel, .groups, .grp { min-width: 0; }
+  .pp h2 { margin: 0; font-size: 1.5rem; } .pp .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pp .chip { background: #fff; border: 2px solid var(--navy); border-radius: 99px; padding: 4px 12px; font-size: .9rem; font-weight: 700; color: var(--navy); }
+  .pp .cap { font-size: .8rem; color: var(--muted); margin: 6px 16px 0; }
+  .pp .story { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; background: #fff; border-radius: 12px; padding: 12px; }
+  .pp .story img, .pp .story .nocover { width: 84px; height: 120px; object-fit: cover; border-radius: 6px; background: #e8e3c4; }
+  .pp .story .how { display: inline-block; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--green); }
+  .pp .story small { display: block; color: var(--muted); }
+  .pp .borrow { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #eaf3fb; border-left: 5px solid #3e98d7; font-size: .95rem; }
+  .pp .borrow a { display: inline-block; margin-top: 6px; font-weight: 700; color: var(--navy); min-height: 44px; padding-top: 10px; }
+  .pp .linkish { background: none; border: 0; padding: 0; min-height: 0; font: inherit; font-weight: 700; color: var(--navy); text-decoration: underline; cursor: pointer; }
+  /* every title and piece is a door (rule 36): the story card opens the title, a tile opens the piece */
+  .pp .bar .nav { display: flex; gap: 8px; align-items: center; min-width: 0; } .pp .bar b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pp .back { background: #fff; color: var(--navy); min-height: 48px; padding: 8px 14px; flex: none; }
+  .pp button.story { width: 100%; text-align: left; font-weight: 400; color: inherit; cursor: pointer; border: 2px solid transparent; }
+  .pp button.story:hover, .pp button.story:focus-visible, .tile:focus-visible, .trow:focus-visible { border-color: var(--gold); outline: none; }
+  .storycard { cursor: pointer; border: 2px solid transparent; } .storycard:hover { border-color: var(--gold); }
+  .pp .opentitle { min-height: 44px; margin-top: 8px; font-weight: 700; color: var(--navy); }
+  .tt-head { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .tt-head img, .tt-head .nocover { width: 110px; height: 160px; object-fit: cover; border-radius: 8px; background: #e8e3c4; }
+  .tt-head h2 { font-size: 1.45rem; }
+  .explore { width: 100%; font: inherit; padding: 12px 14px; border: 2px solid var(--navy); border-radius: 12px; min-height: 50px; background: #fff; }
+  .tabs { position: sticky; top: 68px; z-index: 1; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; background: var(--cream); padding: 6px 0; }
+  .tabs button { min-height: 52px; padding: 6px 4px; font-size: .9rem; background: #fff; color: var(--navy); border: 2px solid var(--navy); line-height: 1.15; }
+  .tabs button[aria-selected="true"] { background: var(--navy); color: var(--gold); }
+  .tabs small { display: block; font-weight: 400; font-size: .78rem; }
+  .gchips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .gchips button { flex: none; min-height: 44px; padding: 6px 14px; border-radius: 99px; background: #fff; color: var(--navy); border: 2px solid var(--navy); font-size: .9rem; }
+  .gchips button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); }
+  .grp h3 { margin: 6px 0 8px; font-size: 1.1rem; color: var(--navy); } .grp h3 span { color: var(--muted); font-weight: 400; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; }
+  .tile { display: block; width: 100%; padding: 0; min-height: 0; border: 2px solid transparent; border-radius: 12px; background: #fff; overflow: hidden; text-align: left; font-weight: 600; color: var(--ink); }
+  .tile img, .tile .ph { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; object-position: top; background: #e8e3c4; }
+  .tile .ph { display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--navy); background: linear-gradient(135deg, #f7e9b8, #e8e3c4); }
+  .tile span { display: block; padding: 6px 8px 8px; font-size: .88rem; line-height: 1.2; }
+  .chal { background: #fff; border-radius: 12px; padding: 12px 14px; border-left: 6px solid #dab96c; }
+  .chal b { display: block; color: var(--navy); }
+  .creators { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .creator { background: #fff; border-radius: 12px; padding: 12px; text-align: center; }
+  .creator img, .creator .ph { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; object-position: top; display: block; margin: 0 auto 8px; background: #e8e3c4; }
+  .creator small { display: block; color: var(--green); font-weight: 700; text-transform: capitalize; }
+  .creator p { margin: 6px 0 0; font-size: .9rem; text-align: left; }
+  .getit { display: flex; flex-wrap: wrap; gap: 10px; }
+  .getit a { display: inline-flex; align-items: center; min-height: 48px; padding: 8px 16px; border-radius: 12px; background: var(--gold); color: var(--navy); font-weight: 700; text-decoration: none; }
+  .quote { margin: 0; padding: 12px 16px; border-left: 5px solid var(--gold); background: #fff; border-radius: 0 12px 12px 0; font-style: italic; }
+  .insentence { background: #fff; border-radius: 12px; padding: 12px 14px; border-left: 6px solid var(--green); }
+  .trow { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; align-items: center; width: 100%; text-align: left; background: #fff;
+    border: 2px solid transparent; border-radius: 12px; padding: 8px; min-height: 60px; font-weight: 400; color: var(--ink); margin-bottom: 8px; }
+  .trow img, .trow .nocover { width: 52px; height: 72px; object-fit: cover; border-radius: 5px; background: #e8e3c4; }
+  .trow b { display: block; } .trow small { color: var(--muted); }
+  .hit { font-size: .75rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: .04em; }
   textarea { width: 100%; height: 160px; font: 14px/1.3 monospace; margin-top: 10px; display: none; }
 </style>
 </head>
@@ -189,35 +230,166 @@ function nearestLibrary(from) {
   PLACES.forEach(p => { if (p.k === "library") { const m = meters(from.lat, from.lon, p.lat, p.lon); if (!best || m < best.m) best = { p, m }; } });
   return best;
 }
+// PAGES OPEN ON TOP OF ONE ANOTHER (rule 36, Ariel 2026-11-02: "it did not let me click anything"): a place opens its titles, a title its
+// pieces, a piece every other title it is in. "Back" goes one page back; the X closes them all and shows the map again.
+const stack = [];
+function sheet(name, html) {
+  const box = document.createElement("div");
+  box.className = "pp"; box.setAttribute("role", "dialog"); box.setAttribute("aria-label", name);
+  box.innerHTML = `<div class="bar"><div class="nav">${stack.length ? `<button class="back" type="button">&#8249; Back</button>` : ""}<b>${esc(name)}</b></div>` +
+    `<button class="x" type="button" aria-label="Close and show the map">&#10005;</button></div>` + html;
+  document.body.appendChild(box);
+  stack.push(box);
+  const b = box.querySelector(".back");
+  if (b) b.onclick = popOne;
+  box.querySelector(".x").onclick = closeAll;
+  (b || box.querySelector(".x")).focus();
+  box.addEventListener("keydown", e => { if (e.key === "Escape") popOne(); });
+  return box;
+}
+function popOne() { const b = stack.pop(); if (b) b.remove(); if (stack.length) stack[stack.length - 1].querySelector(".x").focus(); }
+function closeAll() { while (stack.length) stack.pop().remove(); }
+
 function openPlace(p) {
   const g = p.pg || {}, d = me ? say(meters(me.lat, me.lon, p.lat, p.lon)) + " from you" : "";
   const lib = nearestLibrary(me || p);
   const borrow = s => s.type !== "Book" || !lib ? "" :
     `<div class="borrow"><b>Borrow it:</b> the closest library ${me ? "to you" : "to this place"} is <button class="linkish" type="button" data-n="${esc(lib.p.n)}">${esc(lib.p.n)}</button>, ${say(lib.m)} away.
      <a href="https://commonwealthcatalog.org/sch?cid=massvc&lid=massvc&term=${encodeURIComponent(s.title)}" target="_blank" rel="noopener">Find ${esc(s.title)} in the Massachusetts library catalog</a></div>`;
-  const stories = (g.stories || []).map(s => `<div class="story">${s.cover ? `<img src="${esc(s.cover)}" alt="${esc(s.title)}">` : `<div class="nocover"></div>`}
+  const stories = (g.stories || []).map(s => `<div class="story storycard" data-title="${esc(s.title)}">${s.cover ? `<img src="${esc(s.cover)}" alt="${esc(s.title)}">` : `<div class="nocover"></div>`}
     <div><span class="how">${esc(s.how)}</span><br><b>${esc(s.title)}</b><small>${esc(s.type)}${s.year ? " · " + esc(s.year) : ""}</small>
-    ${s.sentence ? `<p style="margin:6px 0 0">${esc(s.sentence)}</p>` : ""}${borrow(s)}</div></div>`).join("");
-  const box = document.createElement("div");
-  box.id = "pp"; box.setAttribute("role", "dialog"); box.setAttribute("aria-label", p.n);
-  box.innerHTML = `<div class="bar"><b>${esc(p.n)}</b><button class="x" type="button" aria-label="Close the place page">&#10005;</button></div>` +
+    ${s.sentence ? `<p style="margin:6px 0 0">${esc(s.sentence)}</p>` : ""}
+    <button class="linkish opentitle" type="button" data-title="${esc(s.title)}">Open ${esc(s.title)}'s page &#8250;</button>${borrow(s)}</div></div>`).join("");
+  sheet(p.n,
     (g.photo ? `<img class="hero" src="${esc(g.photo)}" alt="${esc(g.caption || p.n)}"><p class="cap">${esc(g.caption || "")}${g.credit ? " · Photo: " + esc(g.credit) : ""}</p>`
              : `<div class="noimg">${p.k === "film" ? "A private home: VAST shows no photo of it." : "No photo yet."}</div>`) +
     `<div class="body"><h2>${esc(p.n)}</h2><div class="chips">${g.kind ? `<span class="chip">${esc(g.kind)}</span>` : ""}${d ? `<span class="chip">${esc(d)}</span>` : ""}</div>
     ${g.access ? `<p style="margin:0"><b>Can I go there?</b> ${esc(g.access)}</p>` : ""}
     ${g.about ? `<p style="margin:0">${esc(g.about)}</p>` : ""}
-    ${stories ? `<h3 style="margin:8px 0 0">Stories here</h3>${stories}` : ""}
-    ${g.more ? `<p style="margin:0"><a href="${esc(g.more)}" target="_blank" rel="noopener">More about ${esc(p.n)}</a></p>` : ""}</div>`;
-  document.body.appendChild(box);
-  const close = () => { box.remove(); };
-  box.querySelector(".x").onclick = close; box.querySelector(".x").focus();
-  box.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+    ${stories ? `<h3 style="margin:8px 0 0">Stories here <span style="font-weight:400;color:var(--muted)">· tap one to open it</span></h3>${stories}` : ""}
+    ${g.more ? `<p style="margin:0"><a href="${esc(g.more)}" target="_blank" rel="noopener">More about ${esc(p.n)}</a></p>` : ""}</div>`);
 }
+
+// THE TITLE PAGE - a media datapage read from VAST's records (tools/gps_test_titles.py): Identify, Describe, Enhance, Engage as tabs
+// with counts, always in view (rule n); one "Explore inside" search over the whole page; every piece a tile with its picture.
+let INDEX = null, SHORT = null;
+const getJSON = u => fetch(u).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+async function titleIndex() { if (!INDEX) INDEX = (await getJSON("t/index.json")).full; return INDEX; }
+async function openTitleByName(t) { const ix = await titleIndex(); if (ix[t]) return openTitle(ix[t].id); }
+const line = (...xs) => xs.filter(Boolean).map(esc).join(" · ");
+const ph = name => `<div class="ph" aria-hidden="true">${esc((name || "?").trim().charAt(0).toUpperCase())}</div>`;
+
+async function openTitle(id) {
+  let t;
+  try { t = await getJSON("t/" + id + ".json"); } catch (e) { return openShort(id); }
+  const pieces = [];
+  t.groups.forEach(g => g.pieces.forEach((p, i) => pieces.push({ g, p, i })));
+  const count = part => t.groups.filter(g => g.part === part).reduce((n, g) => n + g.pieces.length, 0);
+  // a part with nothing in it is not shown: a visitor sees what has been found (rule (o))
+  const parts = ["Identify", "Describe", "Enhance", "Engage"].filter(p => p === "Identify" || count(p));
+  const box = sheet(t.title, `<div class="body">
+    <div class="tt-head">${t.cover ? `<img src="${esc(t.cover)}" alt="${esc(t.title)}">` : `<div class="nocover"></div>`}
+      <div><h2>${esc(t.title)}</h2><p style="margin:4px 0 8px;color:var(--muted)">${line(t.type, t.year)}</p>
+      <div class="chips">${t.fiction ? `<span class="chip">${esc(t.fiction)}</span>` : ""}${t.ages ? `<span class="chip">${esc(/from age (\d+)/.test(t.ages) ? "For ages " + t.ages.match(/from age (\d+)/)[1] + " and up" : /\d/.test(t.ages) ? "Ages " + t.ages : "For " + t.ages.toLowerCase().replace(/ \| /g, ", "))}</span>` : ""}</div></div></div>
+    <input class="explore" type="search" placeholder="Explore inside ${esc(t.title)}" aria-label="Explore inside ${esc(t.title)}">
+    <div class="tabs" role="tablist">${parts.map((p, i) => `<button type="button" role="tab" data-part="${p}" aria-selected="${i === 0}">${p}${p === "Identify" ? "" : `<small>${count(p)}</small>`}</button>`).join("")}</div>
+    <div class="panel"></div></div>`);
+  const panel = box.querySelector(".panel");
+
+  const tile = (g, p, i) => `<button class="tile" type="button" data-g="${t.groups.indexOf(g)}" data-i="${i}">${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : ph(p.name)}<span>${esc(p.name)}</span></button>`;
+  const groupHTML = g => g.facet === "challenge"
+    ? `<div class="grp"><h3>${esc(g.label)} <span>· ${g.pieces.length}</span></h3><div style="display:grid;gap:10px">${g.pieces.map(p =>
+        `<div class="chal"><b>${esc(p.name)}</b>${p.sentence ? `<p style="margin:6px 0 0">${esc(p.sentence)}</p>` : ""}</div>`).join("")}</div></div>`
+    : `<div class="grp"><h3>${esc(g.label)} <span>· ${g.pieces.length}</span></h3><div class="tiles">${g.pieces.map((p, i) => tile(g, p, i)).join("")}</div></div>`;
+
+  function showPart(part) {
+    box.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.part === part));
+    if (part === "Identify") {
+      const lib = t.type === "Book" ? nearestLibrary(me || { lat: 42.36, lon: -71.06 }) : null;
+      panel.innerHTML = `<div style="display:grid;gap:14px">
+        ${t.creators.length ? `<h3 style="margin:4px 0 0">Who made it</h3><div class="creators">${t.creators.map(c => `<div class="creator">${c.photo ? `<img src="${esc(c.photo)}" alt="${esc(c.name)}">` : ph(c.name)}
+          <b>${esc(c.name)}</b><small>${esc(c.role)}</small>${c.lead ? `<p>${esc(c.lead)}</p>` : ""}${c.more ? `<p><a href="${esc(c.more)}" target="_blank" rel="noopener">More about ${esc(c.name)}</a></p>` : ""}</div>`).join("")}</div>` : ""}
+        ${t.links.length || lib ? `<div class="getit">${t.links.map(l => `<a href="${esc(l.link)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}
+          ${lib ? `<a href="https://commonwealthcatalog.org/sch?cid=massvc&lid=massvc&term=${encodeURIComponent(t.title)}" target="_blank" rel="noopener">Borrow it from a library</a>` : ""}</div>` : ""}
+        ${lib ? `<p style="margin:0">The closest library ${me ? "to you" : ""} is <button class="linkish" type="button" data-n="${esc(lib.p.n)}">${esc(lib.p.n)}</button>, ${say(lib.m)} away.</p>` : ""}
+        ${t.quote ? `<blockquote class="quote">${esc(t.quote.text)}${t.quote.who ? `<br><small style="font-style:normal">${esc(t.quote.who)}</small>` : ""}</blockquote>` : ""}
+        ${t.summary ? `<h3 style="margin:4px 0 0">About it</h3><p style="margin:0">${esc(t.summary)}</p>` : ""}
+        ${t.then_and_now ? `<div class="insentence"><b>Then and now</b><p style="margin:6px 0 0">${esc(t.then_and_now)}</p></div>` : ""}</div>`;
+      return;
+    }
+    const gs = t.groups.filter(g => g.part === part);
+    const chips = gs.length > 1 ? `<div class="gchips"><button type="button" aria-pressed="true" data-k="">All</button>${gs.map(g =>
+      `<button type="button" aria-pressed="false" data-k="${esc(g.label)}">${esc(g.label)} · ${g.pieces.length}</button>`).join("")}</div>` : "";
+    panel.innerHTML = `${part === "Describe" || part === "Enhance" ? `<p style="margin:0 0 8px;font-weight:700">Tap any picture to open it.</p>` : ""}${chips}
+      <div class="groups">${gs.map(groupHTML).join("") || "<p>Nothing here yet.</p>"}</div>`;
+    panel.querySelectorAll(".gchips button").forEach(c => c.onclick = () => {
+      panel.querySelectorAll(".gchips button").forEach(x => x.setAttribute("aria-pressed", x === c));
+      panel.querySelector(".groups").innerHTML = gs.filter(g => !c.dataset.k || g.label === c.dataset.k).map(groupHTML).join("");
+    });
+  }
+  box.querySelector(".tabs").onclick = e => { const b = e.target.closest("button"); if (b) { box.querySelector(".explore").value = ""; showPart(b.dataset.part); } };
+  // one search over the whole page, each match labeled with its section
+  box.querySelector(".explore").oninput = e => {
+    const q = e.target.value.trim().toLowerCase();
+    if (!q) return showPart(box.querySelector('.tabs [aria-selected="true"]').dataset.part);
+    const hits = pieces.filter(({ p }) => (p.name + " " + (p.sentence || "") + " " + (p.about || "")).toLowerCase().includes(q));
+    panel.innerHTML = `<p style="margin:0 0 8px"><b>${hits.length}</b> found in ${esc(t.title)}</p>` + hits.map(({ g, p, i }) => g.facet === "challenge"
+      ? `<div class="chal" style="margin-bottom:8px"><span class="hit">Engage · Challenge</span><b>${esc(p.name)}</b>${p.sentence ? `<p style="margin:6px 0 0">${esc(p.sentence)}</p>` : ""}</div>`
+      : `<button class="trow" type="button" data-g="${t.groups.indexOf(g)}" data-i="${i}">${p.image ? `<img src="${esc(p.image)}" alt="">` : `<div class="nocover"></div>`}
+         <span><span class="hit">${esc(g.part)} · ${esc(g.label)}</span><b>${esc(p.name)}</b></span></button>`).join("");
+  };
+  box.addEventListener("click", e => {
+    const b = e.target.closest(".tile[data-g], .trow[data-g]");
+    if (!b) return;
+    const g = t.groups[+b.dataset.g], p = g.pieces[+b.dataset.i];
+    if (p.title_id) openTitle(p.title_id); else openPiece(t, g, p);
+  });
+  showPart("Identify");
+}
+
+// THE PIECE PAGE - an entity datapage: its picture, what it is, its sentence in this title, and every other title it appears in
+function openPiece(t, g, p) {
+  const place = p.on_map && byName(p.on_map);
+  sheet(p.name,
+    (p.image ? `<img class="hero" src="${esc(p.image)}" alt="${esc(p.caption || p.name)}" style="object-position:top">${p.caption || p.credit ? `<p class="cap">${esc(p.caption || "")}${p.credit ? " · " + esc(p.credit) : ""}</p>` : ""}` : "") +
+    `<div class="body"><h2>${esc(p.name)}</h2>
+    <div class="chips"><span class="chip">${esc(g.label.replace(/s$/, "").replace("Careers to explore", "Career").replace("Things to do", "Thing to do"))}</span>${p.kind && p.kind !== p.name ? `<span class="chip">${esc(p.kind)}</span>` : ""}${p.real ? `<span class="chip">${esc(p.real.charAt(0).toUpperCase() + p.real.slice(1))}</span>` : ""}</div>
+    ${place ? `<button class="open" type="button" data-n="${esc(place.n)}">Open its place page and map point</button>` : ""}
+    ${p.sentence || p.locator ? `<div class="insentence"><b>In ${esc(t.title)}</b>${p.sentence ? `<p style="margin:6px 0 0">${esc(p.sentence)}</p>` : ""}${p.locator ? `<small style="color:var(--muted)">Where: ${esc(p.locator)}</small>` : ""}</div>` : ""}
+    ${p.about ? `<p style="margin:0">${esc(p.about)}</p>` : ""}
+    ${p.access ? `<p style="margin:0"><b>Can I go there?</b> ${esc(p.access)}</p>` : ""}
+    ${p.link ? `<p style="margin:0"><a href="${esc(p.link)}" target="_blank" rel="noopener">More about ${esc(p.name)}</a></p>` : ""}
+    ${p.also_count ? `<h3 style="margin:8px 0 0">Also in ${p.also_count} other title${p.also_count === 1 ? "" : "s"} <span style="font-weight:400;color:var(--muted)">· tap one to open it</span></h3>
+      <div>${p.also.map(a => `<button class="trow" type="button" data-tid="${esc(a.id)}">${a.cover ? `<img src="${esc(a.cover)}" alt="" loading="lazy">` : `<div class="nocover"></div>`}
+        <span><b>${esc(a.title)}</b><small>${line(a.type, a.year)}</small></span></button>`).join("")}
+      ${p.also_count > p.also.length ? `<p style="margin:0;color:var(--muted)">and ${p.also_count - p.also.length} more in VAST.</p>` : ""}</div>` : ""}</div>`);
+}
+
+// A SHORT PAGE for a title that is not one of this test site's full pages: its cover, who made it, what it is, where to get it
+async function openShort(id) {
+  if (!SHORT) SHORT = await getJSON("t/short.json");
+  const s = SHORT[id];
+  if (!s) return;
+  sheet(s.title, `<div class="body"><div class="tt-head">${s.cover ? `<img src="${esc(s.cover)}" alt="${esc(s.title)}">` : `<div class="nocover"></div>`}
+    <div><h2>${esc(s.title)}</h2><p style="margin:4px 0 0;color:var(--muted)">${line(s.type, s.year)}</p>
+    ${s.creators.map(c => `<p style="margin:6px 0 0"><b>${esc(c.name)}</b> <small style="color:var(--green);font-weight:700">${esc(c.role)}</small></p>`).join("")}</div></div>
+    ${s.link ? `<div class="getit"><a href="${esc(s.link)}" target="_blank" rel="noopener">Open it</a></div>` : ""}
+    ${s.summary ? `<p style="margin:0">${esc(s.summary)}</p>` : ""}
+    <p style="margin:0;color:var(--muted);font-size:.9rem">This test site shows a short page for this title; its full datapage is in VAST Discovery.</p></div>`);
+}
+
 document.addEventListener("click", e => {
-  const t = e.target.closest(".open, li[data-n], .linkish");
-  if (t && byName(t.dataset.n)) { const old = document.getElementById("pp"); if (old) old.remove(); openPlace(byName(t.dataset.n)); }
+  const tid = e.target.closest("[data-tid]");
+  if (tid) return openTitle(tid.dataset.tid);
+  const card = e.target.closest(".storycard");
+  if (card && !e.target.closest("a, .borrow")) return openTitleByName(card.dataset.title);
+  const t = e.target.closest(".open, li[data-n], .linkish[data-n]");
+  if (t && byName(t.dataset.n)) {
+    if (!t.closest(".pp")) closeAll();          // from the map: start fresh; from inside a page: go one step further
+    openPlace(byName(t.dataset.n));
+  }
 });
-document.addEventListener("keydown", e => { const t = e.target.closest && e.target.closest("li[data-n]"); if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openPlace(byName(t.dataset.n)); } });
+document.addEventListener("keydown", e => { const t = e.target.closest && e.target.closest("li[data-n]"); if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); closeAll(); openPlace(byName(t.dataset.n)); } });
 
 $("#copy").onclick = async () => {
   const text = "VAST near-you test, " + new Date().toLocaleString() + "\n" + navigator.userAgent + "\n" + log.slice(-60).join("\n");
