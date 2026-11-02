@@ -50,6 +50,9 @@
   #pp .story img, #pp .story .nocover { width: 84px; height: 120px; object-fit: cover; border-radius: 6px; background: #e8e3c4; }
   #pp .story .how { display: inline-block; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--green); }
   #pp .story small { display: block; color: var(--muted); }
+  #pp .borrow { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #eaf3fb; border-left: 5px solid #3e98d7; font-size: .95rem; }
+  #pp .borrow a { display: inline-block; margin-top: 6px; font-weight: 700; color: var(--navy); min-height: 44px; padding-top: 10px; }
+  #pp .linkish { background: none; border: 0; padding: 0; min-height: 0; font: inherit; font-weight: 700; color: var(--navy); text-decoration: underline; cursor: pointer; }
   textarea { width: 100%; height: 160px; font: 14px/1.3 monospace; margin-top: 10px; display: none; }
 </style>
 </head>
@@ -179,11 +182,22 @@ $("#mark").onclick = () => {
 
 // THE PLACE PAGE: its picture, kind, whether you can go, what it is, and every title connected to it
 const byName = n => all().find(p => p.n === n);
+// ALWAYS THE CLOSEST LIBRARY TO BORROW THE BOOK FROM (Ariel, 2026-11-02): from where the person is, or, before they share their location,
+// from the place itself. The statewide Commonwealth Catalog search lets them request the book to that library.
+function nearestLibrary(from) {
+  let best = null;
+  PLACES.forEach(p => { if (p.k === "library") { const m = meters(from.lat, from.lon, p.lat, p.lon); if (!best || m < best.m) best = { p, m }; } });
+  return best;
+}
 function openPlace(p) {
   const g = p.pg || {}, d = me ? say(meters(me.lat, me.lon, p.lat, p.lon)) + " from you" : "";
+  const lib = nearestLibrary(me || p);
+  const borrow = s => s.type !== "Book" || !lib ? "" :
+    `<div class="borrow"><b>Borrow it:</b> the closest library ${me ? "to you" : "to this place"} is <button class="linkish" type="button" data-n="${esc(lib.p.n)}">${esc(lib.p.n)}</button>, ${say(lib.m)} away.
+     <a href="https://commonwealthcatalog.org/sch?cid=massvc&lid=massvc&term=${encodeURIComponent(s.title)}" target="_blank" rel="noopener">Find ${esc(s.title)} in the Massachusetts library catalog</a></div>`;
   const stories = (g.stories || []).map(s => `<div class="story">${s.cover ? `<img src="${esc(s.cover)}" alt="${esc(s.title)}">` : `<div class="nocover"></div>`}
     <div><span class="how">${esc(s.how)}</span><br><b>${esc(s.title)}</b><small>${esc(s.type)}${s.year ? " · " + esc(s.year) : ""}</small>
-    ${s.sentence ? `<p style="margin:6px 0 0">${esc(s.sentence)}</p>` : ""}</div></div>`).join("");
+    ${s.sentence ? `<p style="margin:6px 0 0">${esc(s.sentence)}</p>` : ""}${borrow(s)}</div></div>`).join("");
   const box = document.createElement("div");
   box.id = "pp"; box.setAttribute("role", "dialog"); box.setAttribute("aria-label", p.n);
   box.innerHTML = `<div class="bar"><b>${esc(p.n)}</b><button class="x" type="button" aria-label="Close the place page">&#10005;</button></div>` +
@@ -200,8 +214,8 @@ function openPlace(p) {
   box.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
 }
 document.addEventListener("click", e => {
-  const t = e.target.closest(".open, li[data-n]");
-  if (t && byName(t.dataset.n)) openPlace(byName(t.dataset.n));
+  const t = e.target.closest(".open, li[data-n], .linkish");
+  if (t && byName(t.dataset.n)) { const old = document.getElementById("pp"); if (old) old.remove(); openPlace(byName(t.dataset.n)); }
 });
 document.addEventListener("keydown", e => { const t = e.target.closest && e.target.closest("li[data-n]"); if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openPlace(byName(t.dataset.n)); } });
 
